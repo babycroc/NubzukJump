@@ -1,6 +1,8 @@
 <script>
   import P5 from "p5-svelte";
 
+  import { createPlatforms, drawPlatforms } from "./platforms";
+
   import Nubzuk from "./lib/assets/Nubzuk.png";
 
   let nubzuk;
@@ -39,6 +41,8 @@
       nubzukX = p5.width / 2;
       nubzukY = initY;
       nubzukVy = initVy;
+
+      createPlatforms(p5);
     };
     p5.draw = () => {
       p5.background(255);
@@ -48,6 +52,8 @@
 
       jump();
       move(p5);
+
+      drawPlatforms(p5);
     };
     p5.windowResized = () => {
       p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
