@@ -5,13 +5,21 @@
 
   let nubzuk;
   let nubzukX, nubzukY; // position of Nubzuk's feet
+  let nubzukVy;
 
-  let jumpStart, jumpDir;
+  const dt = 0.25;
+  const g = 9.8;
+
+  const initY = 0;
+  const initVy = 75;
+
   const jump = () => {
-    const jumpHeight = 100;
-    if (nubzukY <= jumpStart) jumpDir = 1;
-    if (nubzukY >= jumpStart + jumpHeight) jumpDir = -1;
-    nubzukY += jumpDir;
+    if (nubzukY < initY) {
+      nubzukY = initY;
+      nubzukVy = initVy;
+    }
+    nubzukY += nubzukVy * dt;
+    nubzukVy -= g * dt;
   };
 
   const sketch = (p5) => {
@@ -22,10 +30,8 @@
       p5.createCanvas(p5.windowWidth, p5.windowHeight);
 
       nubzukX = p5.width / 2;
-      nubzukY = 0;
-
-      jumpStart = nubzukY;
-      jumpDir = 1;
+      nubzukY = initY;
+      nubzukVy = initVy;
     };
     p5.draw = () => {
       p5.background(255);
