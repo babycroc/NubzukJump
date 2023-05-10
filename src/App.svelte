@@ -4,13 +4,13 @@
   import Nubzuk from "./lib/assets/Nubzuk.png";
 
   let nubzuk;
-  let nubzukX, nubzukY;
+  let nubzukX, nubzukY; // position of Nubzuk's feet
 
   let jumpStart, jumpDir;
   const jump = () => {
     const jumpHeight = 100;
-    if (nubzukY >= jumpStart) jumpDir = -1;
-    if (nubzukY <= jumpStart - jumpHeight) jumpDir = 1;
+    if (nubzukY <= jumpStart) jumpDir = 1;
+    if (nubzukY >= jumpStart + jumpHeight) jumpDir = -1;
     nubzukY += jumpDir;
   };
 
@@ -22,7 +22,7 @@
       p5.createCanvas(p5.windowWidth, p5.windowHeight);
 
       nubzukX = p5.width / 2;
-      nubzukY = p5.height;
+      nubzukY = 0;
 
       jumpStart = nubzukY;
       jumpDir = 1;
@@ -31,7 +31,7 @@
       p5.background(255);
 
       p5.imageMode(p5.CENTER);
-      p5.image(nubzuk, nubzukX, nubzukY - 50, 100, 100);
+      p5.image(nubzuk, nubzukX, p5.height - nubzukY - 50, 100, 100);
 
       jump();
     };
