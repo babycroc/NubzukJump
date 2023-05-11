@@ -2,6 +2,7 @@ const PLATFORM_MIN_WIDTH = 75;
 const PLATFORM_MAX_WIDTH = 100;
 const PLATFORM_MIN_HEIGHT = 10;
 const PLATFORM_MAX_HEIGHT = 25;
+const PLATFORM_MIN_DISTANCE = 10;
 
 let platforms = [];
 const initPlatformNum = 20;
@@ -12,8 +13,16 @@ const getRandom = (min, max) => {
 
 export const createPlatforms = (p5) => {
   const isOverlapping = (p1, p2) => {
-    if (p1.x > p2.x + p2.width || p2.x + p2.width > p1.x) return false;
-    if (p1.y + p1.height > p2.y || p2.y + p2.height > p1.y) return false;
+    if (
+      p1.x - (p2.x + p2.width) > PLATFORM_MIN_DISTANCE ||
+      p2.x - (p1.x + p1.width) > PLATFORM_MIN_DISTANCE
+    )
+      return false;
+    if (
+      p2.y - (p1.y + p1.height) > PLATFORM_MIN_DISTANCE ||
+      p1.y - (p2.y + p2.height) > PLATFORM_MIN_DISTANCE
+    )
+      return false;
     return true;
   };
 
