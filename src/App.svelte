@@ -2,7 +2,12 @@
   import P5 from "p5-svelte";
 
   import { Nubzuk } from "./Nubzuk";
-  import { createPlatforms, drawPlatforms, getPlatforms } from "./platforms";
+  import {
+    createPlatforms,
+    createPlatformsBetween,
+    drawPlatforms,
+    getPlatforms,
+  } from "./platforms";
   import { delay } from "./utils";
   import { DT } from "./constants";
 
@@ -38,6 +43,7 @@
               const shiftHeight = nubzuk.getY();
               nubzuk.toBaseline();
 
+              createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
               getPlatforms().map(async (platform) => {
                 const initialY = platform.y;
                 const dy = (Math.floor(shiftHeight) / 10) * DT;
@@ -46,10 +52,12 @@
                   await delay(DT);
                 }
               });
+              // TODO: remove platforms no longer in use
             }
           }
         }
       }
+      // console.log(getPlatforms().filter((x) => x.y < 0));
     };
     p5.windowResized = () => {
       p5.resizeCanvas(p5.windowWidth, p5.windowHeight);

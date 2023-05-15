@@ -14,7 +14,7 @@ export const getPlatforms = () => {
   return platforms;
 };
 
-export const createPlatforms = (p5) => {
+export const createPlatformsBetween = (p5, yBottom, yTop) => {
   const isOverlapping = (p1, p2) => {
     if (
       p1.x - (p2.x + p2.width) > PLATFORM_MIN_DISTANCE ||
@@ -29,35 +29,36 @@ export const createPlatforms = (p5) => {
     return true;
   };
 
-  const createPlatform = (p5) => {
-    const yInterval = 100;
-    const platformPerInterval = 3;
-    for (let y1 = 0; y1 <= p5.height - yInterval; y1 += yInterval) {
-      const y2 = y1 + yInterval;
+  const yInterval = 100;
+  const platformPerInterval = 3;
+  for (let y1 = yBottom; y1 <= yTop - yInterval; y1 += yInterval) {
+    const y2 = y1 + yInterval;
+    if (y2 > yTop) y2 = yTop;
 
-      for (let i = 0; i < platformPerInterval; i++) {
-        const width = Math.floor(
-          getRandom(PLATFORM_MIN_WIDTH, PLATFORM_MAX_WIDTH)
-        );
-        const height = Math.floor(
-          getRandom(PLATFORM_MIN_HEIGHT, PLATFORM_MAX_HEIGHT)
-        );
-        const x = Math.floor(getRandom(0, p5.width - width));
-        const y = Math.floor(getRandom(y1, y2));
+    for (let i = 0; i < platformPerInterval; i++) {
+      const width = Math.floor(
+        getRandom(PLATFORM_MIN_WIDTH, PLATFORM_MAX_WIDTH)
+      );
+      const height = Math.floor(
+        getRandom(PLATFORM_MIN_HEIGHT, PLATFORM_MAX_HEIGHT)
+      );
+      const x = Math.floor(getRandom(0, p5.width - width));
+      const y = Math.floor(getRandom(y1, y2));
 
-        const newPlatform = { x, y, width, height };
-        if (
-          platforms
-            .map((p) => isOverlapping(p, newPlatform))
-            .filter((p) => p == true).length == 0
-        ) {
-          platforms.push(newPlatform);
-        }
+      const newPlatform = { x, y, width, height };
+      if (
+        platforms
+          .map((p) => isOverlapping(p, newPlatform))
+          .filter((p) => p == true).length == 0
+      ) {
+        platforms.push(newPlatform);
       }
     }
-  };
+  }
+};
 
-  createPlatform(p5);
+export const createPlatforms = (p5) => {
+  createPlatformsBetween(p5, 0, p5.height);
 };
 
 export const drawPlatforms = (p5) => {
