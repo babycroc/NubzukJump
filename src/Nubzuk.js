@@ -28,14 +28,12 @@ class Nubzuk {
 
   // methods
   draw(p5) {
+    const canvasY = p5.height - this.y;
     p5.imageMode(p5.CENTER);
-    p5.image(
-      this.image,
-      this.x,
-      p5.height - this.y - this.size / 2,
-      this.size,
-      this.size
-    );
+    p5.image(this.image, this.x, canvasY - this.size / 2, this.size, this.size);
+
+    // p5.ellipseMode(p5.CENTER);
+    // p5.ellipse(this.x, canvasY, 5, 5);
   }
 
   jump() {
@@ -50,6 +48,20 @@ class Nubzuk {
   move(p5, direction) {
     this.x += direction * NUBZUK_HORIZONTAL_STEP;
     this.x = this.x + (p5.width % p5.width);
+  }
+
+  onPlatform(p5, platform) {
+    const canvasY = p5.height - this.y;
+    if (
+      platform.x - 10 <= this.x &&
+      this.x <= platform.x + platform.width + 10 &&
+      platform.y - 5 <= canvasY &&
+      canvasY <= platform.y + 5
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

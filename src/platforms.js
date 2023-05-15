@@ -63,3 +63,13 @@ export const createPlatforms = (p5) => {
 export const drawPlatforms = (p5) => {
   platforms.map((p) => p5.rect(p.x, p.y, p.width, p.height));
 };
+
+export const onPlatform = (x, y) => {
+  const error = 5;
+  return (
+    platforms.filter(
+      (p) =>
+        p.x <= x && x <= p.x + p.width && p.y - error <= y && y <= p.y + error
+    ).length !== 0
+  );
+};
