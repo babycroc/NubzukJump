@@ -58,13 +58,12 @@ class Nubzuk {
     this.x = this.x + (p5.width % p5.width);
   }
 
-  onPlatform(p5, platform) {
-    const canvasY = p5.height - this.y;
+  onPlatform(platform) {
     if (
       platform.x - 10 <= this.x &&
       this.x <= platform.x + platform.width + 10 &&
-      platform.y - 5 <= canvasY &&
-      canvasY <= platform.y + 5
+      platform.y - 5 <= this.y &&
+      this.y <= platform.y + 5
     ) {
       return true;
     } else {

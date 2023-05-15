@@ -61,7 +61,7 @@ export const createPlatforms = (p5) => {
 };
 
 export const drawPlatforms = (p5) => {
-  platforms.map((p) => p5.rect(p.x, p.y, p.width, p.height));
+  platforms.map((p) => p5.rect(p.x, p5.height - p.y, p.width, p.height));
 };
 
 export const onPlatform = (x, y) => {

@@ -3,6 +3,8 @@
 
   import { Nubzuk } from "./Nubzuk";
   import { createPlatforms, drawPlatforms, getPlatforms } from "./platforms";
+  import { delay } from "./utils";
+  import { DT } from "./constants";
 
   let nubzuk;
 
@@ -30,9 +32,20 @@
 
         if (nubzuk.vy < 0) {
           for (const platform of getPlatforms()) {
-            if (nubzuk.onPlatform(p5, platform)) {
+            if (nubzuk.onPlatform(platform)) {
               stop = true;
+
+              const shiftHeight = nubzuk.getY();
               nubzuk.toBaseline();
+
+              getPlatforms().map(async (platform) => {
+                const initialY = platform.y;
+                const dy = (Math.floor(shiftHeight) / 10) * DT;
+                for (let y = initialY; y > initialY - shiftHeight; y -= dy) {
+                  platform.y = Math.ceil(y);
+                  await delay(DT);
+                }
+              });
             }
           }
         }
