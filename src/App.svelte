@@ -13,8 +13,6 @@
 
   let nubzuk;
 
-  let stop = false;
-
   const sketch = (p5) => {
     p5.preload = () => {};
     p5.setup = () => {
@@ -30,34 +28,29 @@
 
       nubzuk.draw(p5);
 
-      if (!stop) {
-        nubzuk.jump();
-        if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
-        if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
+      nubzuk.jump();
+      if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
+      if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
 
-        if (nubzuk.vy < 0) {
-          for (const platform of getPlatforms()) {
-            if (nubzuk.onPlatform(platform)) {
-              stop = true;
+      if (nubzuk.vy < 0) {
+        for (const platform of getPlatforms()) {
+          if (nubzuk.onPlatform(platform)) {
+            const shiftHeight = nubzuk.getY();
+            nubzuk.toBaseline();
 
-              const shiftHeight = nubzuk.getY();
-              nubzuk.toBaseline();
-
-              createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
-              getPlatforms().map(async (platform) => {
-                const initialY = platform.y;
-                const dy = (Math.floor(shiftHeight) / 10) * DT;
-                for (let y = initialY; y > initialY - shiftHeight; y -= dy) {
-                  platform.y = Math.ceil(y);
-                  await delay(DT);
-                }
-              });
-              // TODO: remove platforms no longer in use
-            }
+            createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
+            getPlatforms().map(async (platform) => {
+              const initialY = platform.y;
+              const dy = (Math.floor(shiftHeight) / 10) * DT;
+              for (let y = initialY; y > initialY - shiftHeight; y -= dy) {
+                platform.y = Math.ceil(y);
+                await delay(DT);
+              }
+            });
+            // TODO: remove platforms no longer in use
           }
         }
       }
-      // console.log(getPlatforms().filter((x) => x.y < 0));
     };
     p5.windowResized = () => {
       p5.resizeCanvas(p5.windowWidth, p5.windowHeight);
