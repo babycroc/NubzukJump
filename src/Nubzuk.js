@@ -6,6 +6,7 @@ import {
   NUBZUK_SIZE,
 } from "./constants";
 import NubzukImage from "./lib/assets/Nubzuk.png";
+import { delay } from "./utils";
 
 class Nubzuk {
   // constructor
@@ -27,6 +28,13 @@ class Nubzuk {
   }
 
   // methods
+  getY() {
+    return this.y;
+  }
+  setY(y) {
+    this.y = y;
+  }
+
   draw(p5) {
     const canvasY = p5.height - this.y;
     p5.imageMode(p5.CENTER);
@@ -61,6 +69,14 @@ class Nubzuk {
       return true;
     } else {
       return false;
+    }
+  }
+
+  async toBaseline() {
+    const dy = (Math.floor(this.y) / 10) * DT;
+    for (let y = this.getY(); y > 0; y -= dy) {
+      await this.setY(Math.ceil(y));
+      await delay(DT);
     }
   }
 }

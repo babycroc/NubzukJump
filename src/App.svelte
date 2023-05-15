@@ -30,7 +30,10 @@
 
         if (nubzuk.vy < 0) {
           for (const platform of getPlatforms()) {
-            if (nubzuk.onPlatform(p5, platform)) stop = true;
+            if (nubzuk.onPlatform(p5, platform)) {
+              stop = true;
+              nubzuk.toBaseline();
+            }
           }
         }
       }
