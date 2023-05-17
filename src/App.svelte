@@ -7,6 +7,7 @@
     createPlatformsBetween,
     drawPlatforms,
     getPlatforms,
+    setPlatforms,
   } from "./platforms";
   import { delay } from "./utils";
   import { DT, NUBZUK_INIT_Y } from "./constants";
@@ -43,7 +44,7 @@
       if (nubzuk.vy < 0) {
         for (const platform of getPlatforms()) {
           if (nubzuk.onPlatform(platform)) {
-            const shiftHeight = nubzuk.getY() - NUBZUK_INIT_Y;
+            const shiftHeight = platform.y - NUBZUK_INIT_Y;
             nubzuk.toBaseline();
 
             createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
@@ -55,7 +56,8 @@
                 await delay(DT);
               }
             });
-            // TODO: remove platforms no longer in use
+            const updatedPlatforms = getPlatforms().filter((x) => x.y > 0);
+            setPlatforms(updatedPlatforms);
           }
         }
       }

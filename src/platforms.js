@@ -15,6 +15,9 @@ const getRandom = (min, max) => {
 export const getPlatforms = () => {
   return platforms;
 };
+export const setPlatforms = (updatedPlatforms) => {
+  platforms = updatedPlatforms;
+};
 
 export const createPlatformsBetween = (p5, yBottom, yTop) => {
   const isOverlapping = (p1, p2) => {

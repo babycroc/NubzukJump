@@ -67,7 +67,7 @@ class Nubzuk {
   }
 
   async toBaseline() {
-    const dy = (Math.floor(this.y) / 10) * DT;
+    const dy = Math.min((Math.floor(this.y) / 10) * DT, 5);
     for (let y = this.getY(); y > NUBZUK_INIT_Y; y -= dy) {
       await this.setY(Math.ceil(y));
       await delay(DT);
