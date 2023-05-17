@@ -43,10 +43,6 @@ class Nubzuk {
   }
 
   jump() {
-    if (this.y < NUBZUK_INIT_Y) {
-      this.y = NUBZUK_INIT_Y;
-      this.vy = NUBZUK_INIT_VY;
-    }
     this.y += this.vy * DT;
     this.vy -= G * DT;
   }
@@ -76,6 +72,8 @@ class Nubzuk {
       await this.setY(Math.ceil(y));
       await delay(DT);
     }
+    this.y = NUBZUK_INIT_Y;
+    this.vy = NUBZUK_INIT_VY;
   }
 }
 
