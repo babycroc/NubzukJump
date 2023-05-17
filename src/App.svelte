@@ -9,7 +9,7 @@
     getPlatforms,
   } from "./platforms";
   import { delay } from "./utils";
-  import { DT } from "./constants";
+  import { DT, NUBZUK_INIT_Y } from "./constants";
   import { socket } from "./socket";
 
   let nubzuk;
@@ -43,7 +43,7 @@
       if (nubzuk.vy < 0) {
         for (const platform of getPlatforms()) {
           if (nubzuk.onPlatform(platform)) {
-            const shiftHeight = nubzuk.getY();
+            const shiftHeight = nubzuk.getY() - NUBZUK_INIT_Y;
             nubzuk.toBaseline();
 
             createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);

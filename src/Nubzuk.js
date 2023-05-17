@@ -3,6 +3,7 @@ import {
   G,
   NUBZUK_HORIZONTAL_STEP,
   NUBZUK_INIT_VY,
+  NUBZUK_INIT_Y,
   NUBZUK_SIZE,
 } from "./constants";
 import NubzukImage from "./lib/assets/Nubzuk.png";
@@ -14,7 +15,7 @@ class Nubzuk {
     this.image = p5.loadImage(NubzukImage);
     this.size = NUBZUK_SIZE;
     this.x = p5.width / 2;
-    this.y = 0;
+    this.y = NUBZUK_INIT_Y;
     this.vy = NUBZUK_INIT_VY;
   }
 
@@ -42,8 +43,8 @@ class Nubzuk {
   }
 
   jump() {
-    if (this.y < 0) {
-      this.y = 0;
+    if (this.y < NUBZUK_INIT_Y) {
+      this.y = NUBZUK_INIT_Y;
       this.vy = NUBZUK_INIT_VY;
     }
     this.y += this.vy * DT;
@@ -71,7 +72,7 @@ class Nubzuk {
 
   async toBaseline() {
     const dy = (Math.floor(this.y) / 10) * DT;
-    for (let y = this.getY(); y > 0; y -= dy) {
+    for (let y = this.getY(); y > NUBZUK_INIT_Y; y -= dy) {
       await this.setY(Math.ceil(y));
       await delay(DT);
     }
