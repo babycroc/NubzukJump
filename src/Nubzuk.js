@@ -39,9 +39,6 @@ class Nubzuk {
     const canvasY = p5.height - this.y;
     p5.imageMode(p5.CENTER);
     p5.image(this.image, this.x, canvasY - this.size / 2, this.size, this.size);
-
-    // p5.ellipseMode(p5.CENTER);
-    // p5.ellipse(this.x, canvasY, 5, 5);
   }
 
   jump() {
