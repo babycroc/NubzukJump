@@ -1,3 +1,5 @@
+import { NUBZUK_INIT_Y } from "./constants";
+
 const PLATFORM_MIN_WIDTH = 75;
 const PLATFORM_MAX_WIDTH = 100;
 const PLATFORM_MIN_HEIGHT = 10;
@@ -58,6 +60,12 @@ export const createPlatformsBetween = (p5, yBottom, yTop) => {
 };
 
 export const createPlatforms = (p5) => {
+  platforms.push({
+    x: p5.width / 2 - PLATFORM_MIN_WIDTH / 2,
+    y: NUBZUK_INIT_Y,
+    width: PLATFORM_MIN_WIDTH,
+    height: PLATFORM_MIN_HEIGHT,
+  });
   createPlatformsBetween(p5, 0, p5.height);
 };
 
