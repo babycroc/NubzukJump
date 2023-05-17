@@ -52,7 +52,7 @@ class Nubzuk {
 
   move(p5, direction) {
     this.x += direction * NUBZUK_HORIZONTAL_STEP;
-    this.x = this.x + (p5.width % p5.width);
+    this.x = (this.x + p5.width) % p5.width;
   }
 
   onPlatform(platform) {
