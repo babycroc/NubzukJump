@@ -16,6 +16,7 @@
 
   let nubzuk;
   let serialInput = 0;
+  let score = 0;
 
   const sketch = (p5) => {
     p5.preload = () => {};
@@ -29,8 +30,12 @@
       p5.background(255);
 
       drawPlatforms(p5);
-
       nubzuk.draw(p5);
+
+      p5.textAlign(p5.LEFT, p5.TOP);
+      p5.textFont("Arial");
+      p5.textSize(18);
+      p5.text(`Score: ${score}`, 12, 6);
 
       nubzuk.jump();
 
@@ -46,6 +51,10 @@
         for (const platform of getPlatforms()) {
           if (nubzuk.onPlatform(platform)) {
             const shiftHeight = platform.y - NUBZUK_INIT_Y;
+            if (shiftHeight > 5) {
+              score += shiftHeight;
+            }
+
             nubzuk.toBaseline();
 
             createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
