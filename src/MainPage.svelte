@@ -3,13 +3,13 @@
   import { navigate } from "svelte-routing";
 
   import { Nubzuk } from "./Nubzuk";
-  import { PlatformFactory } from "./Platform";
+  import { Objects } from "./Objects";
   import { delay } from "./utils";
   import { DT, NUBZUK_INIT_Y } from "./constants";
   import { socket } from "./socket";
 
   let nubzuk;
-  let platformFactory;
+  let objects;
   let serialInput = 0;
   let score = 0;
 
@@ -20,13 +20,13 @@
 
       nubzuk = Nubzuk.getInstance(p5);
 
-      platformFactory = PlatformFactory.getInstance();
-      platformFactory.createPlatforms(p5);
+      objects = Objects.getInstance();
+      objects.createPlatforms(p5);
     };
     p5.draw = () => {
       p5.background(255);
 
-      platformFactory.draw(p5);
+      objects.draw(p5);
       nubzuk.draw(p5);
 
       p5.fill("#000000");
@@ -46,7 +46,7 @@
       //   if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
 
       if (nubzuk.vy < 0) {
-        for (const platform of platformFactory.getPlatforms()) {
+        for (const platform of objects.getPlatforms()) {
           if (nubzuk.onPlatform(platform)) {
             const shiftHeight = platform.y - NUBZUK_INIT_Y;
             if (shiftHeight > 5) {
@@ -55,24 +55,35 @@
 
             nubzuk.toBaseline();
 
-            platformFactory.createPlatformsBetween(
+            objects.createObjectsBetween(
               p5,
               p5.height,
-              p5.height + shiftHeight
+              p5.height + shiftHeight,
+              true
             );
-            platformFactory.getPlatforms().map(async (platform) => {
-              const initialY = platform.y;
+            objects.getObjects().map(async (object) => {
+              const initialY = object.y;
               const dy = (Math.floor(shiftHeight) / 10) * DT;
               for (let y = initialY; y > initialY - shiftHeight; y -= dy) {
-                platform.shiftTo(Math.ceil(y));
+                object.shiftTo(Math.ceil(y));
                 await delay(DT);
               }
             });
-            const updatedPlatforms = platformFactory
+            const updatedPlatforms = objects
               .getPlatforms()
               .filter((x) => x.y > 0);
-            platformFactory.setPlatforms(updatedPlatforms);
+            const updatedObstacles = objects
+              .getObstacles()
+              .filter((x) => x.y > 0);
+            objects.setPlatforms(updatedPlatforms);
+            objects.setObstacles(updatedObstacles);
           }
+        }
+      }
+
+      for (const obstacle of objects.getObstacles()) {
+        if (nubzuk.meetsObstacle(obstacle)) {
+          navigate("/score");
         }
       }
 

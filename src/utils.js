@@ -5,3 +5,7 @@ export function delay(ms) {
     }, ms);
   });
 }
+
+export function getRandom(min, max) {
+  return Math.floor(min + Math.random() * (max - min));
+}

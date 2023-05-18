@@ -5,6 +5,7 @@ import {
   NUBZUK_INIT_VY,
   NUBZUK_INIT_Y,
   NUBZUK_SIZE,
+  OBJECT_MIN_DISTANCE,
 } from "./constants";
 import NubzukImage from "./lib/assets/Nubzuk.png";
 import { delay } from "./utils";
@@ -64,6 +65,24 @@ class Nubzuk {
     } else {
       return false;
     }
+  }
+
+  meetsObstacle(obstacle) {
+    const startX = this.x;
+    const startY = this.y - this.height;
+    if (
+      obstacle.x + obstacle.width < startX + OBJECT_MIN_DISTANCE ||
+      startX + this.width < obstacle.x + OBJECT_MIN_DISTANCE
+    ) {
+      return false;
+    }
+    if (
+      startY + this.height < obstacle.y + OBJECT_MIN_DISTANCE ||
+      obstacle.y + obstacle.height < startY + OBJECT_MIN_DISTANCE
+    ) {
+      return false;
+    }
+    return true;
   }
 
   async toBaseline() {
