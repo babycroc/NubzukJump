@@ -5,13 +5,34 @@
   import { Nubzuk } from "./Nubzuk";
   import { Objects } from "./Objects";
   import { delay } from "./utils";
-  import { DT, NUBZUK_INIT_Y } from "./constants";
+  import {
+    DT,
+    NUBZUK_INIT_Y,
+    SCORE_DISPLAY_HEIGHT,
+    SCORE_DISPLAY_WIDTH,
+    SCORE_DISPLAY_MARGIN,
+  } from "./constants";
   import { socket } from "./socket";
 
   let nubzuk;
   let objects;
   let serialInput = 0;
   let score = 0;
+
+  const drawScore = (p5, x, y) => {
+    p5.fill("#ffffff");
+    p5.stroke("#000000");
+    p5.strokeWeight(1);
+    p5.rectMode(p5.CENTER);
+    p5.rect(x, y, SCORE_DISPLAY_WIDTH, SCORE_DISPLAY_HEIGHT);
+
+    p5.fill("#000000");
+    p5.noStroke();
+    p5.textAlign(p5.CENTER, p5.CENTER);
+    p5.textFont("Arial");
+    p5.textSize(18);
+    p5.text(`Score: ${score}`, x, y);
+  };
 
   const sketch = (p5) => {
     p5.preload = () => {};
@@ -29,11 +50,11 @@
       objects.draw(p5);
       nubzuk.draw(p5);
 
-      p5.fill("#000000");
-      p5.textAlign(p5.LEFT, p5.TOP);
-      p5.textFont("Arial");
-      p5.textSize(18);
-      p5.text(`Score: ${score}`, 12, 6);
+      drawScore(
+        p5,
+        p5.width - SCORE_DISPLAY_WIDTH / 2 - SCORE_DISPLAY_MARGIN,
+        SCORE_DISPLAY_MARGIN
+      );
 
       nubzuk.jump();
 
@@ -87,7 +108,9 @@
         }
       }
 
-      if (nubzuk.y + nubzuk.size < 0) navigate("/score");
+      if (nubzuk.y + nubzuk.size < 0) {
+        navigate("/score");
+      }
     };
     p5.windowResized = () => {
       p5.resizeCanvas(p5.windowWidth, p5.windowHeight);

@@ -14,3 +14,7 @@ export const PLATFORM_MIN_WIDTH = 75;
 export const PLATFORM_MAX_WIDTH = 100;
 export const PLATFORM_MIN_HEIGHT = 10;
 export const PLATFORM_MAX_HEIGHT = 20;
+
+export const SCORE_DISPLAY_WIDTH = 150;
+export const SCORE_DISPLAY_HEIGHT = 50;
+export const SCORE_DISPLAY_MARGIN = 50;
