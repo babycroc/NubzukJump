@@ -29,6 +29,7 @@
       platformFactory.draw(p5);
       nubzuk.draw(p5);
 
+      p5.fill("#000000");
       p5.textAlign(p5.LEFT, p5.TOP);
       p5.textFont("Arial");
       p5.textSize(18);

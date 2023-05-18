@@ -55,8 +55,8 @@ class Nubzuk {
   onPlatform(platform) {
     const nextY = this.y + this.vy * DT;
     if (
-      platform.x - 10 <= this.x &&
-      this.x <= platform.x + platform.width + 10 &&
+      platform.x <= this.x &&
+      this.x <= platform.x + platform.width &&
       this.y >= platform.y &&
       platform.y >= nextY
     ) {
