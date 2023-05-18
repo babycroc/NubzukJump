@@ -1,6 +1,7 @@
 <script>
   import P5 from "p5-svelte";
   import { navigate } from "svelte-routing";
+  import { ref, get } from "firebase/database";
 
   import { Nubzuk } from "./Nubzuk";
   import { Objects } from "./Objects";
@@ -11,13 +12,28 @@
     SCORE_DISPLAY_HEIGHT,
     SCORE_DISPLAY_WIDTH,
     SCORE_DISPLAY_MARGIN,
+    SCORE_MARKER_LENGTH,
   } from "./constants";
   import { socket } from "./socket";
+  import { database } from "./firebase";
 
   let nubzuk;
   let objects;
   let serialInput = 0;
-  let score = 0;
+  let currentScore = 0;
+  let scoreBoard = [];
+
+  const dbRef = ref(database, "/");
+  const loadData = () => {
+    get(dbRef)
+      .then((snapshot) => {
+        const data = snapshot.val();
+        scoreBoard = data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const drawScore = (p5, x, y) => {
     p5.fill("#ffffff");
@@ -31,7 +47,7 @@
     p5.textAlign(p5.CENTER, p5.CENTER);
     p5.textFont("Arial");
     p5.textSize(18);
-    p5.text(`Score: ${score}`, x, y);
+    p5.text(`Score: ${currentScore}`, x, y);
   };
 
   const sketch = (p5) => {
@@ -43,6 +59,8 @@
 
       objects = Objects.getInstance();
       objects.createPlatforms(p5);
+
+      loadData();
     };
     p5.draw = () => {
       p5.background(255);
@@ -55,6 +73,23 @@
         p5.width - SCORE_DISPLAY_WIDTH / 2 - SCORE_DISPLAY_MARGIN,
         SCORE_DISPLAY_MARGIN
       );
+
+      scoreBoard.map((score) => {
+        const scoreDiff = score.score - currentScore;
+        if (scoreDiff > 0 && scoreDiff < p5.height) {
+          const canvasY = p5.height - scoreDiff;
+
+          p5.stroke("#000000");
+          p5.strokeWeight(1);
+          p5.line(p5.width - SCORE_MARKER_LENGTH, canvasY, p5.width, canvasY);
+
+          p5.fill("#000000");
+          p5.noStroke();
+          p5.textAlign(p5.RIGHT, p5.BOTTOM);
+          p5.textSize(16);
+          p5.text(`${score.nickname}`, p5.width - 10, canvasY);
+        }
+      });
 
       nubzuk.jump();
 
@@ -71,7 +106,7 @@
           if (nubzuk.onPlatform(platform)) {
             const shiftHeight = platform.y - NUBZUK_INIT_Y;
             if (shiftHeight > 5) {
-              score += shiftHeight;
+              currentScore += shiftHeight;
             }
 
             nubzuk.toBaseline();
