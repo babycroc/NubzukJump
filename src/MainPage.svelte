@@ -3,18 +3,13 @@
   import { navigate } from "svelte-routing";
 
   import { Nubzuk } from "./Nubzuk";
-  import {
-    createPlatforms,
-    createPlatformsBetween,
-    drawPlatforms,
-    getPlatforms,
-    setPlatforms,
-  } from "./platforms";
+  import { PlatformFactory } from "./Platform";
   import { delay } from "./utils";
   import { DT, NUBZUK_INIT_Y } from "./constants";
   import { socket } from "./socket";
 
   let nubzuk;
+  let platformFactory;
   let serialInput = 0;
   let score = 0;
 
@@ -24,12 +19,14 @@
       p5.createCanvas(p5.windowWidth, p5.windowHeight);
 
       nubzuk = Nubzuk.getInstance(p5);
-      createPlatforms(p5);
+
+      platformFactory = PlatformFactory.getInstance();
+      platformFactory.createPlatforms(p5);
     };
     p5.draw = () => {
       p5.background(255);
 
-      drawPlatforms(p5);
+      platformFactory.draw(p5);
       nubzuk.draw(p5);
 
       p5.textAlign(p5.LEFT, p5.TOP);
@@ -44,11 +41,11 @@
         if (serialInput != newSerialInput) serialInput = newSerialInput;
       });
       nubzuk.move(p5, serialInput);
-      // if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
-      // if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
+      //   if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
+      //   if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
 
       if (nubzuk.vy < 0) {
-        for (const platform of getPlatforms()) {
+        for (const platform of platformFactory.getPlatforms()) {
           if (nubzuk.onPlatform(platform)) {
             const shiftHeight = platform.y - NUBZUK_INIT_Y;
             if (shiftHeight > 5) {
@@ -57,17 +54,23 @@
 
             nubzuk.toBaseline();
 
-            createPlatformsBetween(p5, p5.height, p5.height + shiftHeight);
-            getPlatforms().map(async (platform) => {
+            platformFactory.createPlatformsBetween(
+              p5,
+              p5.height,
+              p5.height + shiftHeight
+            );
+            platformFactory.getPlatforms().map(async (platform) => {
               const initialY = platform.y;
               const dy = (Math.floor(shiftHeight) / 10) * DT;
               for (let y = initialY; y > initialY - shiftHeight; y -= dy) {
-                platform.y = Math.ceil(y);
+                platform.shiftTo(Math.ceil(y));
                 await delay(DT);
               }
             });
-            const updatedPlatforms = getPlatforms().filter((x) => x.y > 0);
-            setPlatforms(updatedPlatforms);
+            const updatedPlatforms = platformFactory
+              .getPlatforms()
+              .filter((x) => x.y > 0);
+            platformFactory.setPlatforms(updatedPlatforms);
           }
         }
       }
