@@ -139,11 +139,13 @@
 
       for (const obstacle of objects.getObstacles()) {
         if (nubzuk.meetsObstacle(obstacle)) {
+          localStorage.setItem("score", currentScore);
           navigate("/score");
         }
       }
 
       if (nubzuk.y + nubzuk.size < 0) {
+        localStorage.setItem("score", currentScore);
         navigate("/score");
       }
     };
