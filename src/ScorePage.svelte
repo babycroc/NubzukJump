@@ -1,22 +1,21 @@
 <script>
-  import { Link } from "svelte-routing";
+  import { navigate } from "svelte-routing";
   import { ref, get, set } from "firebase/database";
 
   import { database } from "./firebase";
+  import { onMount } from "svelte";
 
   let scoreBoard = [];
-  const myScore = localStorage.getItem("score");
+  const myScore = parseInt(localStorage.getItem("score"));
   let myNickname = "";
+  let editMode = true;
 
   const dbRef = ref(database, "/");
   const loadData = () => {
     get(dbRef)
       .then((snapshot) => {
         const data = snapshot.val();
-        scoreBoard = data.sort((a, b) => {
-          if (a.score > b.score) return -1;
-          else return 1;
-        });
+        scoreBoard = data.sort((a, b) => parseInt(b.score) - parseInt(a.score));
       })
       .catch((err) => {
         console.log(err);
@@ -24,21 +23,34 @@
   };
   const saveData = (nickname, score) => {
     set(dbRef, scoreBoard.concat({ nickname: nickname, score: score }));
+    editMode = false;
     loadData();
   };
 
-  loadData();
+  onMount(() => {
+    loadData();
+  });
 </script>
 
 <main>
   <h1>Game over!</h1>
-  <h2>Your score is: {myScore}</h2>
-  <input type="text" bind:value={myNickname} />
-  <button type="submit" on:click={() => saveData(myNickname, myScore)}
-    >Save</button
+  <button
+    on:click={() => {
+      window.location.href = "/";
+    }}>Replay</button
   >
 
-  <Link href="/"><button>Restart!</button></Link>
+  <h2>Your score is: {myScore}</h2>
+  <div class="form">
+    {#if editMode}
+      <input type="text" bind:value={myNickname} use:focus />
+      <button type="submit" on:click={() => saveData(myNickname, myScore)}
+        >Save</button
+      >
+    {:else}
+      Successfully saved!
+    {/if}
+  </div>
 
   <table>
     <thead>
@@ -71,5 +83,9 @@
   th,
   td {
     padding: 10px;
+  }
+  button {
+    max-width: 100px;
+    margin: 0 auto;
   }
 </style>

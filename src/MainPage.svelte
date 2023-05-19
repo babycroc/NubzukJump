@@ -27,7 +27,7 @@
     get(dbRef)
       .then((snapshot) => {
         const data = snapshot.val();
-        scoreBoard = data;
+        if (data) scoreBoard = data;
       })
       .catch((err) => {
         console.log(err);
