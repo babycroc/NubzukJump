@@ -10,9 +10,9 @@ export const GOOSE_SIZE = 50;
 
 export const OBJECT_MIN_DISTANCE = 30;
 
-export const PLATFORM_MIN_WIDTH = 75;
-export const PLATFORM_MAX_WIDTH = 100;
-export const PLATFORM_MIN_HEIGHT = 10;
+export const PLATFORM_MIN_WIDTH = 80;
+export const PLATFORM_MAX_WIDTH = 120;
+export const PLATFORM_MIN_HEIGHT = 15;
 export const PLATFORM_MAX_HEIGHT = 20;
 
 export const SCORE_DISPLAY_WIDTH = 150;

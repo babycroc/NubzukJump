@@ -52,6 +52,7 @@ class Objects {
 
   createPlatforms(p5) {
     const initPlatform = new Platform(
+      p5,
       p5.width / 2 - PLATFORM_MIN_WIDTH / 2,
       NUBZUK_INIT_Y + NUBZUK_SIZE,
       PLATFORM_MIN_WIDTH,
@@ -79,7 +80,7 @@ class Objects {
         const x = Math.floor(getRandom(0, p5.width - width));
         const y = Math.floor(getRandom(y1, y2));
 
-        const newPlatform = new Platform(x, y, width, height);
+        const newPlatform = new Platform(p5, x, y, width, height);
         if (
           this.platforms
             .map((p) => p.overlaps(newPlatform))

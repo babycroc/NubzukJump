@@ -1,8 +1,10 @@
 import { OBJECT_MIN_DISTANCE } from "./constants";
+import PlatformImage from "./lib/assets/Platform.png";
 
 class Platform {
   // constructor
-  constructor(x, y, width, height) {
+  constructor(p5, x, y, width, height) {
+    this.image = p5.loadImage(PlatformImage);
     this.x = x;
     this.y = y;
     this.width = width;
@@ -12,10 +14,15 @@ class Platform {
   // methods
   draw(p5) {
     const canvasY = p5.height - this.y;
-    p5.noStroke();
-    p5.fill("#40a0d2");
-    p5.rectMode(p5.CORNER);
-    p5.rect(this.x, canvasY, this.width, this.height, this.height / 2);
+    p5.imageMode(p5.CORNER);
+    p5.image(
+      this.image,
+      this.x,
+      canvasY,
+      this.width,
+      this.height,
+      this.height / 2
+    );
   }
 
   shiftTo(height) {
