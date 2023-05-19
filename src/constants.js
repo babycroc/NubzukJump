@@ -19,4 +19,4 @@ export const SCORE_DISPLAY_WIDTH = 150;
 export const SCORE_DISPLAY_HEIGHT = 50;
 export const SCORE_DISPLAY_MARGIN = 50;
 
-export const SCORE_MARKER_LENGTH = 200;
+export const SCORE_MARKER_LENGTH = 100;

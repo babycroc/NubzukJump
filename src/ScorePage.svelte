@@ -33,6 +33,8 @@
 
 <main>
   <h1>Game over!</h1>
+  <p>Nubzuk has failed to graduate... One more try?</p>
+
   <button
     on:click={() => {
       window.location.href = "/";
@@ -77,18 +79,34 @@
   main {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     margin: 0 auto;
   }
   th,
   td {
-    padding: 10px;
+    padding: 10px 20px;
+    min-width: 100px;
+  }
+  th {
+    background-color: #40a0d2;
+    color: white;
   }
   button {
+    background-color: #40a0d2;
+    color: white;
+    border: none;
     max-width: 100px;
     margin: 0 auto;
+    cursor: pointer;
+    padding: 7px 12px;
   }
   .form {
     margin: 50px;
+  }
+  input:hover,
+  input:focus {
+    border: solid 1px #40a0d2;
   }
 </style>

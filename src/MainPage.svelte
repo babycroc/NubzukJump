@@ -54,14 +54,18 @@
     });
 
     // current score
-    p5.fill("#ffffff");
-    p5.stroke("#000000");
-    p5.strokeWeight(1);
-    p5.rectMode(p5.CENTER);
-    p5.rect(x, y, SCORE_DISPLAY_WIDTH, SCORE_DISPLAY_HEIGHT);
-
-    p5.fill("#000000");
+    p5.fill("#40A0D2");
     p5.noStroke();
+    p5.rectMode(p5.CENTER);
+    p5.rect(
+      x,
+      y,
+      SCORE_DISPLAY_WIDTH,
+      SCORE_DISPLAY_HEIGHT,
+      SCORE_DISPLAY_WIDTH / 2
+    );
+
+    p5.fill("#ffffff");
     p5.textAlign(p5.CENTER, p5.CENTER);
     p5.textFont("Arial");
     p5.textSize(18);
