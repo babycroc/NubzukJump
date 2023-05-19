@@ -1,5 +1,4 @@
 <script>
-  import { navigate } from "svelte-routing";
   import { ref, get, set } from "firebase/database";
 
   import { database } from "./firebase";
@@ -40,8 +39,9 @@
     }}>Replay</button
   >
 
-  <h2>Your score is: {myScore}</h2>
   <div class="form">
+    <h2>Your score is: {myScore}</h2>
+    <p>Enter nickname to save your score!</p>
     {#if editMode}
       <input type="text" bind:value={myNickname} use:focus />
       <button type="submit" on:click={() => saveData(myNickname, myScore)}
@@ -87,5 +87,8 @@
   button {
     max-width: 100px;
     margin: 0 auto;
+  }
+  .form {
+    margin: 50px;
   }
 </style>

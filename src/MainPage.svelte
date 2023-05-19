@@ -35,6 +35,25 @@
   };
 
   const drawScore = (p5, x, y) => {
+    // scoreboard results
+    scoreBoard.map((score) => {
+      const scoreDiff = score.score - currentScore;
+      if (scoreDiff > 0 && scoreDiff < p5.height) {
+        const canvasY = p5.height - scoreDiff;
+
+        p5.stroke("#000000");
+        p5.strokeWeight(1);
+        p5.line(p5.width - SCORE_MARKER_LENGTH, canvasY, p5.width, canvasY);
+
+        p5.fill("#000000");
+        p5.noStroke();
+        p5.textAlign(p5.RIGHT, p5.BOTTOM);
+        p5.textSize(16);
+        p5.text(`${score.nickname}`, p5.width - 10, canvasY);
+      }
+    });
+
+    // current score
     p5.fill("#ffffff");
     p5.stroke("#000000");
     p5.strokeWeight(1);
@@ -66,29 +85,11 @@
 
       objects.draw(p5);
       nubzuk.draw(p5);
-
       drawScore(
         p5,
         p5.width - SCORE_DISPLAY_WIDTH / 2 - SCORE_DISPLAY_MARGIN,
         SCORE_DISPLAY_MARGIN
       );
-
-      scoreBoard.map((score) => {
-        const scoreDiff = score.score - currentScore;
-        if (scoreDiff > 0 && scoreDiff < p5.height) {
-          const canvasY = p5.height - scoreDiff;
-
-          p5.stroke("#000000");
-          p5.strokeWeight(1);
-          p5.line(p5.width - SCORE_MARKER_LENGTH, canvasY, p5.width, canvasY);
-
-          p5.fill("#000000");
-          p5.noStroke();
-          p5.textAlign(p5.RIGHT, p5.BOTTOM);
-          p5.textSize(16);
-          p5.text(`${score.nickname}`, p5.width - 10, canvasY);
-        }
-      });
 
       nubzuk.jump();
 
