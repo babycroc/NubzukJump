@@ -11,15 +11,11 @@ class Platform {
 
   // methods
   draw(p5) {
+    const canvasY = p5.height - this.y;
     p5.noStroke();
     p5.fill("#40a0d2");
-    p5.rect(
-      this.x,
-      p5.height - this.y,
-      this.width,
-      this.height,
-      this.height / 2
-    );
+    p5.rectMode(p5.CORNER);
+    p5.rect(this.x, canvasY, this.width, this.height, this.height / 2);
   }
 
   shiftTo(height) {

@@ -54,7 +54,7 @@ class Objects {
       p5.width / 2 - PLATFORM_MIN_WIDTH / 2,
       NUBZUK_INIT_Y,
       PLATFORM_MIN_WIDTH,
-      PLATFORM_MIN_HEIGHT
+      PLATFORM_MAX_HEIGHT
     );
     this.addPlatform(initPlatform);
     this.createObjectsBetween(p5, 0, p5.height, false);

@@ -1,6 +1,5 @@
 <script>
   import P5 from "p5-svelte";
-  import { navigate } from "svelte-routing";
   import { ref, get } from "firebase/database";
 
   import { Nubzuk } from "./Nubzuk";
@@ -97,9 +96,9 @@
         const newSerialInput = data;
         if (serialInput != newSerialInput) serialInput = newSerialInput;
       });
-      nubzuk.move(p5, serialInput);
-      //   if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
-      //   if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
+      //   nubzuk.move(p5, serialInput);
+      if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
+      if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
 
       if (nubzuk.vy < 0) {
         for (const platform of objects.getPlatforms()) {
@@ -140,13 +139,13 @@
       for (const obstacle of objects.getObstacles()) {
         if (nubzuk.meetsObstacle(obstacle)) {
           localStorage.setItem("score", currentScore);
-          navigate("/score");
+          window.location.href = "/score";
         }
       }
 
       if (nubzuk.y + nubzuk.size < 0) {
         localStorage.setItem("score", currentScore);
-        navigate("/score");
+        window.location.href = "/score";
       }
     };
     p5.windowResized = () => {

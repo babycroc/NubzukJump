@@ -56,10 +56,10 @@ class Nubzuk {
   onPlatform(platform) {
     const nextY = this.y + this.vy * DT;
     if (
-      platform.x <= this.x &&
-      this.x <= platform.x + platform.width &&
-      this.y >= platform.y &&
-      platform.y >= nextY
+      platform.x < this.x &&
+      this.x < platform.x + platform.width &&
+      this.y > platform.y &&
+      platform.y > nextY
     ) {
       return true;
     } else {
@@ -68,17 +68,17 @@ class Nubzuk {
   }
 
   meetsObstacle(obstacle) {
-    const startX = this.x;
-    const startY = this.y - this.height;
+    const startX = this.x - this.size / 2;
+    const startY = this.y + this.size;
     if (
-      obstacle.x + obstacle.width < startX + OBJECT_MIN_DISTANCE ||
-      startX + this.width < obstacle.x + OBJECT_MIN_DISTANCE
+      obstacle.x + obstacle.width < startX ||
+      startX + this.size < obstacle.x + OBJECT_MIN_DISTANCE
     ) {
       return false;
     }
     if (
-      startY + this.height < obstacle.y + OBJECT_MIN_DISTANCE ||
-      obstacle.y + obstacle.height < startY + OBJECT_MIN_DISTANCE
+      obstacle.y < startY - this.size + OBJECT_MIN_DISTANCE ||
+      startY < obstacle.y - obstacle.height + OBJECT_MIN_DISTANCE
     ) {
       return false;
     }
