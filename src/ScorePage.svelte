@@ -7,7 +7,7 @@
   let scoreBoard = [];
   const myScore = parseInt(localStorage.getItem("score"));
   let myNickname = "";
-  let editMode = JSON.parse(localStorage.getItem("saved"));
+  let editMode = true; //JSON.parse(localStorage.getItem("saved"));
   console.log(editMode, typeof editMode);
 
   const dbRef = ref(database, "/");

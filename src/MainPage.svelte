@@ -12,15 +12,19 @@
     SCORE_DISPLAY_WIDTH,
     SCORE_DISPLAY_MARGIN,
     SCORE_MARKER_LENGTH,
+    PICKET_WIDTH,
+    PICKET_HEIGHT,
   } from "./constants";
   import { socket } from "./socket";
   import { database } from "./firebase";
+  import arrow from "./lib/assets/ArrowUp.png";
 
   let nubzuk;
   let objects;
   let serialInput = 0;
   let currentScore = 0;
   let scoreBoard = [];
+  let arrowIcon;
 
   const dbRef = ref(database, "/");
   const loadData = () => {
@@ -72,8 +76,30 @@
     p5.text(`Score: ${currentScore}`, x, y);
   };
 
+  const drawPicket = (p5) => {
+    const picketX = p5.width / 2;
+    const picketY = PICKET_HEIGHT;
+    p5.fill("#ffffff");
+    p5.stroke("#000000");
+    p5.strokeWeight(1);
+    p5.rectMode(p5.CENTER);
+    p5.rect(picketX, picketY, PICKET_WIDTH, PICKET_HEIGHT);
+
+    p5.imageMode(p5.CENTER);
+    p5.image(arrowIcon, picketX - PICKET_WIDTH / 2 + 25, picketY - 1, 18, 18);
+    p5.image(arrowIcon, picketX + PICKET_WIDTH / 2 - 25, picketY - 1, 18, 18);
+
+    p5.fill("#000000");
+    p5.noStroke();
+    p5.textAlign(p5.CENTER, p5.CENTER);
+    p5.textSize(18);
+    p5.text("GRADUATION UP AHEAD", picketX, picketY);
+  };
+
   const sketch = (p5) => {
-    p5.preload = () => {};
+    p5.preload = () => {
+      arrowIcon = p5.loadImage(arrow);
+    };
     p5.setup = () => {
       p5.createCanvas(p5.windowWidth, p5.windowHeight);
 
@@ -94,6 +120,7 @@
         p5.width - SCORE_DISPLAY_WIDTH / 2 - SCORE_DISPLAY_MARGIN,
         SCORE_DISPLAY_MARGIN
       );
+      drawPicket(p5);
 
       nubzuk.jump();
 
