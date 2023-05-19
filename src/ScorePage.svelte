@@ -7,14 +7,17 @@
   let scoreBoard = [];
   const myScore = parseInt(localStorage.getItem("score"));
   let myNickname = "";
-  let editMode = true;
+  let editMode = JSON.parse(localStorage.getItem("saved"));
+  console.log(editMode, typeof editMode);
 
   const dbRef = ref(database, "/");
   const loadData = () => {
     get(dbRef)
       .then((snapshot) => {
         const data = snapshot.val();
-        scoreBoard = data.sort((a, b) => parseInt(b.score) - parseInt(a.score));
+        scoreBoard = data
+          .sort((a, b) => parseInt(b.score) - parseInt(a.score))
+          .slice(0, 10);
       })
       .catch((err) => {
         console.log(err);
@@ -23,6 +26,7 @@
   const saveData = (nickname, score) => {
     set(dbRef, scoreBoard.concat({ nickname: nickname, score: score }));
     editMode = false;
+    localStorage.setItem("saved", true);
     loadData();
   };
 
@@ -83,6 +87,7 @@
     justify-content: center;
     text-align: center;
     margin: 0 auto;
+    padding-bottom: 50px;
   }
   th,
   td {
