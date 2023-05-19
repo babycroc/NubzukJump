@@ -41,8 +41,8 @@
 
   <div class="form">
     <h2>Your score is: {myScore}</h2>
-    <p>Enter nickname to save your score!</p>
     {#if editMode}
+      <p>Enter nickname to save your score!</p>
       <input type="text" bind:value={myNickname} use:focus />
       <button type="submit" on:click={() => saveData(myNickname, myScore)}
         >Save</button

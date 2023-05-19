@@ -7,6 +7,7 @@ import {
   PLATFORM_MIN_HEIGHT,
   PLATFORM_MAX_HEIGHT,
   GOOSE_SIZE,
+  NUBZUK_SIZE,
 } from "./constants";
 import { getRandom } from "./utils";
 
@@ -52,7 +53,7 @@ class Objects {
   createPlatforms(p5) {
     const initPlatform = new Platform(
       p5.width / 2 - PLATFORM_MIN_WIDTH / 2,
-      NUBZUK_INIT_Y,
+      NUBZUK_INIT_Y + NUBZUK_SIZE,
       PLATFORM_MIN_WIDTH,
       PLATFORM_MAX_HEIGHT
     );

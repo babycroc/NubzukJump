@@ -97,9 +97,9 @@
         const newSerialInput = data;
         if (serialInput != newSerialInput) serialInput = newSerialInput;
       });
-      //   nubzuk.move(p5, serialInput);
-      if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
-      if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
+      nubzuk.move(p5, serialInput);
+      //   if (p5.keyIsDown(p5.LEFT_ARROW)) nubzuk.move(p5, -1);
+      //   if (p5.keyIsDown(p5.RIGHT_ARROW)) nubzuk.move(p5, 1);
 
       if (nubzuk.vy < 0) {
         for (const platform of objects.getPlatforms()) {
